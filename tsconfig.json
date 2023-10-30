@@ -1,0 +1,6 @@
+{
+  "extends": "@nutol/ts-config/tsconfig.common.json",
+  "compilerOptions": {
+    "incremental": false
+  }
+}

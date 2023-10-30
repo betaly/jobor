@@ -1,0 +1,79 @@
+{
+  "name": "@jobor/mono-repo",
+  "version": "0.1.0",
+  "description": "A generic job queue library for Node.js. It helps you build reliable and scalable background job processing workflows.",
+  "private": true,
+  "engines": {
+    "node": ">=14"
+  },
+  "author": "TY",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "husky install && yarn build",
+    "prerelease": "yarn build:full && yarn lint",
+    "release": "yarn prerelease &&cross-env CI=1 lerna version && lerna publish from-git --yes",
+    "lint": "yarn prettier:check && yarn eslint",
+    "lint:fix": "yarn prettier:fix && yarn eslint:fix",
+    "eslint": "nb-eslint --report-unused-disable-directives --cache .",
+    "eslint:fix": "yarn eslint --fix",
+    "prettier:cli": "nb-prettier \"**/*.ts\" \"**/*.js\" \"**/*.md\"",
+    "prettier:check": "yarn prettier:cli --check",
+    "prettier:fix": "yarn prettier:cli --write",
+    "clean": "yarn workspaces foreach --topological-dev --all run clean && del 'packages/*/dist'",
+    "build": "yarn workspaces foreach --topological-dev --all run build",
+    "build:full": "yarn && yarn clean && yarn workspaces foreach --topological-dev --all run build",
+    "pretest": "yarn workspaces foreach -t -R run clean && yarn build",
+    "test": "yarn pretest && yarn workspaces foreach --topological-dev --all run test && yarn posttest",
+    "posttest": "yarn lint",
+    "test:ci": "lerna run test --sort"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.2.0",
+    "@commitlint/config-conventional": "^18.1.0",
+    "@commitlint/travis-cli": "^18.2.0",
+    "@nutol/build": "^0.2.15",
+    "@nutol/eslint-config": "^0.2.10",
+    "@nutol/monorepo": "^0.2.12",
+    "@nutol/ts-config": "^0.2.2",
+    "@types/jest": "^29.5.7",
+    "@types/node": "^20.8.10",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "cross-env": "^7.0.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "del-cli": "^5.1.0",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-eslint-plugin": "^5.1.1",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-jest": "^27.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.3",
+    "if-env": "^1.0.4",
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
+    "lerna": "^7.4.2",
+    "lint-staged": "^15.0.2",
+    "prettier": "^2.8.8",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.2.2"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "if-env LINT_STAGED=0 && echo \"lint-staged disabled via LINT_STAGED env var\" || lint-staged"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "workspaces": [
+    "packages/*",
+    "adapters/*",
+    "storages/*"
+  ],
+  "packageManager": "yarn@4.0.1"
+}
