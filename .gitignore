@@ -13,7 +13,6 @@
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
-yarn.lock
 
 node_modules
 npm-debug.log
