@@ -19,7 +19,7 @@ import {AnyObj} from 'tily/typings/types';
 
 import {ALL_JOB_TYPES, loggerCtx} from './constants';
 import {getJobsByType} from './scripts/get-jobs-by-type';
-import {BullMQPStrategyOptions, CustomScriptDefinition} from './types';
+import {BullMQPAdapterOptions, CustomScriptDefinition} from './types';
 
 const QUEUE_NAME = 'jobor-job-queue';
 const DEFAULT_CONCURRENCY = 3;
@@ -39,11 +39,11 @@ export class BullMQJobQueueAdapter implements InspectableJobQueueAdapter {
   private queue: Queue;
   private worker?: Worker;
   private workerProcessor: Processor;
-  private options: BullMQPStrategyOptions;
+  private options: BullMQPAdapterOptions;
   private queueNameProcessFnMap = new Map<string, (job: Job) => Promise<any>>();
   private stopped = false;
 
-  constructor(options: BullMQPStrategyOptions = {}) {
+  constructor(options: BullMQPAdapterOptions = {}) {
     this.options = mergeDeep(
       {
         workerOptions: {

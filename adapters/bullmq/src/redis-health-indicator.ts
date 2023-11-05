@@ -3,7 +3,7 @@ import {RedisConnection} from 'bullmq';
 import {delay} from 'tily/delay';
 
 import {loggerCtx} from './constants';
-import {BullMQPStrategyOptions} from './types';
+import {BullMQPAdapterOptions} from './types';
 
 class HealthCheckError extends Error {
   constructor(public message: string, public healthIndicatorResult: HealthIndicatorResult) {
@@ -14,7 +14,7 @@ class HealthCheckError extends Error {
 export class RedisHealthIndicator extends HealthIndicator {
   private timeoutTimer: NodeJS.Timeout | undefined;
 
-  constructor(private options: BullMQPStrategyOptions) {
+  constructor(private options: BullMQPAdapterOptions) {
     super();
   }
 

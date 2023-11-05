@@ -2,14 +2,14 @@ import {adapterStandardTests} from '@jobor/test-suite';
 import {Redis} from 'ioredis';
 
 import {BullMQJobQueueAdapter} from '../../bullmq-job-queue-adapter';
-import {BullMQPStrategyOptions} from '../../types';
+import {BullMQPAdapterOptions} from '../../types';
 import {REDIS_HOST, REDIS_PORT} from '../constants';
 
 describe('BullMQJobQueueAdapter', () => {
   let redis: Redis;
   let adapter: BullMQJobQueueAdapter;
 
-  let options: BullMQPStrategyOptions;
+  let options: BullMQPAdapterOptions;
 
   beforeAll(async () => {
     redis = new Redis({

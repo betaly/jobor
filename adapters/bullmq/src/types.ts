@@ -5,14 +5,13 @@ import {RedisHealthIndicator} from './redis-health-indicator';
 
 /**
  * @description
- * Configuration options for the {@link BullMQJobQueuePlugin}.
+ * Configuration options for the BullMQJobQueueAdapter
  *
- * @since 1.2.0
  * @docsCategory core plugins/JobQueuePlugin
  * @docsPage BullMQPluginOptions
  * @docsWeight 0
  */
-export interface BullMQPStrategyOptions {
+export interface BullMQPAdapterOptions {
   redisHealthIndicator?: RedisHealthIndicator;
   /**
    * @description
@@ -56,7 +55,7 @@ export interface BullMQPStrategyOptions {
    * }
    *  ```
    *
-   
+
    */
   setRetries?: (queueName: string, job: Job) => number;
   /**
@@ -75,7 +74,7 @@ export interface BullMQPStrategyOptions {
    *   };
    * }
    * ```
-   
+
    * @default 'exponential', 1000
    */
   setBackoff?: (queueName: string, job: Job) => BackoffOptions | undefined;
@@ -85,7 +84,7 @@ export interface BullMQPStrategyOptions {
  * @description
  * Configuration for the backoff function when retrying failed jobs.
  *
- 
+
  * @docsCategory core plugins/JobQueuePlugin
  * @docsPage BullMQPluginOptions
  * @docsWeight 1
