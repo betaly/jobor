@@ -11,7 +11,7 @@ describe('Jobor', () => {
 
   beforeEach(async () => {
     app = new Application();
-    app.bind(JoborBindings.JOBOR_CONFIG).to({
+    app.bind(JoborBindings.CONFIG).to({
       //
     });
     app.component(JoborComponent);
