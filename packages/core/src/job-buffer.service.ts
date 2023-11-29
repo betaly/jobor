@@ -2,8 +2,8 @@ import {BErrors} from 'berrors';
 import sortBy from 'tily/array/sortBy';
 
 import {AnyJob, Job} from './job';
+import {JobBufStore} from './job-buf-store';
 import {AnyJobBuffer, JobBuffer} from './job-buffer';
-import {JobBufferStorage} from './job-buffer-storage';
 import {JobQueueOptions} from './job-queue.service';
 import {JobQueueAdapter} from './job-queue-adapter';
 import {Logger} from './logger';
@@ -16,11 +16,11 @@ import {Logger} from './logger';
 export class JobBufferService {
   protected buffers = new Set<JobBuffer>();
   protected adapter: JobQueueAdapter;
-  protected storage: JobBufferStorage;
+  protected bufstore: JobBufStore;
 
   constructor(private options: JobQueueOptions) {
     this.adapter = this.options.adapter;
-    this.storage = this.options.storage;
+    this.bufstore = this.options.bufstore;
   }
 
   addBuffer(buffer: AnyJobBuffer) {
@@ -43,7 +43,7 @@ export class JobBufferService {
       const shouldCollect = await buffer.collect(job);
       if (shouldCollect) {
         collected = true;
-        await this.storage.add(buffer.id, job);
+        await this.bufstore.add(buffer.id, job);
       }
     }
     return collected;
@@ -51,14 +51,14 @@ export class JobBufferService {
 
   bufferSize(forBuffers?: Array<JobBuffer | string>): Promise<{[bufferId: string]: number}> {
     const buffer = forBuffers ?? Array.from(this.buffers);
-    return this.storage.bufferSize(buffer.map(p => (typeof p === 'string' ? p : p.id)));
+    return this.bufstore.bufferSize(buffer.map(p => (typeof p === 'string' ? p : p.id)));
   }
 
   async flush(forBuffers?: Array<JobBuffer | string>): Promise<Job[]> {
     const {adapter} = this;
     const buffers = forBuffers ?? Array.from(this.buffers);
     const ids = buffers.map(p => (typeof p === 'string' ? p : p.id));
-    const flushResult = await this.storage.flush(ids);
+    const flushResult = await this.bufstore.flush(ids);
     const result: Job[] = [];
     for (const buffer of this.buffers) {
       const jobsForBuffer = sortBy(job => job.createdAt, flushResult[buffer.id]);

@@ -1,17 +1,17 @@
 import {Job} from '../job';
-import {JobBufferStorage} from '../job-buffer-storage';
+import {JobBufStore} from '../job-buf-store';
 
 /**
  * @description
- * A {@link JobBufferStorage} which keeps the buffered jobs in memory. Should
+ * A {@link JobBufStore} which keeps the buffered jobs in memory. Should
  * _not_ be used in production, since it will lose data in the event of the server
  * stopping.
  *
- 
+
  * @docsCategory JobQueue
  */
-export class InMemoryJobBufferStorage implements JobBufferStorage {
-  protected bufferStorage = new Map<string, Set<Job>>();
+export class InMemoryJobBufStore implements JobBufStore {
+  protected map = new Map<string, Set<Job>>();
 
   async add(bufferId: string, job: Job): Promise<Job> {
     const set = this.getSet(bufferId);
@@ -20,33 +20,33 @@ export class InMemoryJobBufferStorage implements JobBufferStorage {
   }
 
   async bufferSize(bufferIds?: string[]): Promise<{[bufferId: string]: number}> {
-    const ids = bufferIds ?? Array.from(this.bufferStorage.keys());
+    const ids = bufferIds ?? Array.from(this.map.keys());
     const result: {[bufferId: string]: number} = {};
     for (const id of ids) {
-      const size = this.bufferStorage.get(id)?.size ?? 0;
+      const size = this.map.get(id)?.size ?? 0;
       result[id] = size;
     }
     return result;
   }
 
   async flush(bufferIds?: string[]): Promise<{[bufferId: string]: Job[]}> {
-    const ids = bufferIds ?? Array.from(this.bufferStorage.keys());
+    const ids = bufferIds ?? Array.from(this.map.keys());
     const result: {[processorId: string]: Job[]} = {};
     for (const id of ids) {
-      const jobs = Array.from(this.bufferStorage.get(id) ?? []);
-      this.bufferStorage.get(id)?.clear();
+      const jobs = Array.from(this.map.get(id) ?? []);
+      this.map.get(id)?.clear();
       result[id] = jobs;
     }
     return result;
   }
 
   private getSet(bufferId: string): Set<Job> {
-    const set = this.bufferStorage.get(bufferId);
+    const set = this.map.get(bufferId);
     if (set) {
       return set;
     } else {
       const newSet = new Set<Job>();
-      this.bufferStorage.set(bufferId, newSet);
+      this.map.set(bufferId, newSet);
       return newSet;
     }
   }

@@ -28,7 +28,7 @@ junit.xml
 # ignore dist conetents but dist directory for `flat` modules
 packages/*/dist/*
 adapters/*/dist/*
-storages/*/dist/*
+bufstores/*/dist/*
 examples/*/dist/*
 
 # dockerlab

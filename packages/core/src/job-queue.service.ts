@@ -1,8 +1,8 @@
 import {loggerCtx} from './constants';
 import {Job} from './job';
+import {JobBufStore} from './job-buf-store';
 import {AnyJobBuffer} from './job-buffer';
 import {JobBufferService} from './job-buffer.service';
-import {JobBufferStorage} from './job-buffer-storage';
 import {JobQueue} from './job-queue';
 import {JobQueueAdapter} from './job-queue-adapter';
 import {Logger} from './logger';
@@ -27,9 +27,9 @@ export interface JobQueueOptions {
    * @description
    * Defines how the jobs in the buffer are persisted and accessed.
    *
-   * @default InMemoryJobBufferStorageStrategy
+   * @default InMemoryJobBufStoreStrategy
    */
-  storage: JobBufferStorage;
+  bufstore: JobBufStore;
 
   /**
    * @description

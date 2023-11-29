@@ -1171,6 +1171,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jobor/bufstore-redis@workspace:^, @jobor/bufstore-redis@workspace:bufstores/bufstore-redis":
+  version: 0.0.0-use.local
+  resolution: "@jobor/bufstore-redis@workspace:bufstores/bufstore-redis"
+  dependencies:
+    "@jobor/test-suite": "workspace:^"
+    "@nutol/build": "npm:^0.2.15"
+    "@nutol/eslint-config": "npm:^0.2.10"
+    "@nutol/ts-config": "npm:^0.2.2"
+    "@types/jest": "npm:^29.5.7"
+    "@types/node": "npm:^20.8.10"
+    del-cli: "npm:^5.1.0"
+    jest: "npm:^29.7.0"
+  languageName: unknown
+  linkType: soft
+
 "@jobor/bullmq@workspace:^, @jobor/bullmq@workspace:adapters/bullmq":
   version: 0.0.0-use.local
   resolution: "@jobor/bullmq@workspace:adapters/bullmq"
@@ -1250,21 +1265,6 @@ __metadata:
     prettier: "npm:^2.8.8"
     ts-jest: "npm:^29.1.1"
     typescript: "npm:^5.2.2"
-  languageName: unknown
-  linkType: soft
-
-"@jobor/storage-redis@workspace:^, @jobor/storage-redis@workspace:storages/storage-redis":
-  version: 0.0.0-use.local
-  resolution: "@jobor/storage-redis@workspace:storages/storage-redis"
-  dependencies:
-    "@jobor/test-suite": "workspace:^"
-    "@nutol/build": "npm:^0.2.15"
-    "@nutol/eslint-config": "npm:^0.2.10"
-    "@nutol/ts-config": "npm:^0.2.2"
-    "@types/jest": "npm:^29.5.7"
-    "@types/node": "npm:^20.8.10"
-    del-cli: "npm:^5.1.0"
-    jest: "npm:^29.7.0"
   languageName: unknown
   linkType: soft
 
@@ -7688,9 +7688,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "jobor@workspace:packages/jobor"
   dependencies:
+    "@jobor/bufstore-redis": "workspace:^"
     "@jobor/bullmq": "workspace:^"
     "@jobor/core": "workspace:^"
-    "@jobor/storage-redis": "workspace:^"
     "@nutol/build": "npm:^0.2.15"
     "@nutol/eslint-config": "npm:^0.2.10"
     "@nutol/ts-config": "npm:^0.2.2"

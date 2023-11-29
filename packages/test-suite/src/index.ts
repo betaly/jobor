@@ -1,2 +1,2 @@
 export * from './adapter.standard';
-export * from './storage.standard';
+export * from './bufstore.standard';

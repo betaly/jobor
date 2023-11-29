@@ -1,7 +1,7 @@
 # Jobor: Advanced Job Queue Management for Node.js
 
 Jobor is a versatile job queue management system for Node.js applications, allowing developers to schedule and process
-jobs efficiently. It supports both in-memory and persistent job storage solutions, and it offers a flexible approach to
+jobs efficiently. It supports both in-memory and persistent job bufstore solutions, and it offers a flexible approach to
 processing jobs either on the server or in worker processes.
 
 ## Features
@@ -10,7 +10,7 @@ processing jobs either on the server or in worker processes.
   your application.
 - **Multiple Queue Adapters**: Supports in-memory queues for development and BullMQ for robust, production-ready
   queuing.
-- **Extensible Storage Options**: Built-in support for in-memory storage, with the ability to extend to Redis for
+- **Extensible Storage Options**: Built-in support for in-memory bufstore, with the ability to extend to Redis for
   distributed, persistent job queues.
 - **Process Contexts**: Manage process modes dynamically within your application to optimize resource utilization.
 - **Robust and Scalable**: Designed to handle both small-scale applications and large, distributed systems.
@@ -28,10 +28,10 @@ yarn add jobor
 ```ts
 import {Jobor} from 'jobor';
 
-// Initialize Jobor with BullMQ adapter and Redis storage
+// Initialize Jobor with BullMQ adapter and Redis bufstore
 const jobor = new Jobor({
   adapter: {name: 'bullmq'},
-  storage: {name: 'redis'},
+  bufstore: {name: 'redis'},
   processMode: 'server',
 });
 ```
@@ -69,7 +69,7 @@ Configure Jobor to match the needs of your application:
 ```ts
 const joborOptions = {
   adapter: {name: 'bullmq' /* BullMQ specific options */},
-  storage: {name: 'redis' /* Redis specific options */},
+  bufstore: {name: 'redis' /* Redis specific options */},
   processMode: 'server', // Can be 'server' or 'worker'
 };
 
@@ -108,7 +108,7 @@ import {Jobor, Job} from 'jobor';
 
 const jobor = new Jobor({
   adapter: {name: 'bullmq'}, // memory adapter is not supported in worker mode.
-  storage: {name: 'redis'},
+  bufstore: {name: 'redis'},
   processMode: 'server', // or 'worker' in worker process
 });
 
@@ -139,7 +139,7 @@ jobor.start();
 Jobor supports two queue adapters currently:
 
 - **In-Memory**: A simple, in-memory queue adapter that is useful for development and testing.
-- **BullMQ**: A robust, production-ready queue adapter that uses Redis for persistent storage.
+- **BullMQ**: A robust, production-ready queue adapter that uses Redis for persistent bufstore.
 
 ### In-Memory Adapter
 
@@ -170,10 +170,10 @@ const jobor = new Jobor({
 
 ## Storage
 
-Jobor supports two storage options currently:
+Jobor supports two bufstore options currently:
 
-- **In-Memory**: A simple, in-memory storage solution that is useful for development and testing.
-- **Redis**: A distributed, persistent storage solution that is useful for production applications.
+- **In-Memory**: A simple, in-memory bufstore solution that is useful for development and testing.
+- **Redis**: A distributed, persistent bufstore solution that is useful for production applications.
 
 ### In-Memory Storage
 
@@ -181,7 +181,7 @@ Jobor supports two storage options currently:
 const {Jobor} = require('jobor');
 
 const jobor = new Jobor({
-  storage: {name: 'memory'}, // No options
+  bufstore: {name: 'memory'}, // No options
 });
 ```
 
@@ -191,7 +191,7 @@ const jobor = new Jobor({
 const {Jobor} = require('jobor');
 
 const jobor = new Jobor({
-  storage: {
+  bufstore: {
     name: 'redis',
     // Redis specific options
   },
@@ -203,7 +203,7 @@ const jobor = new Jobor({
 Jobor is built to be extended:
 
 - Create custom adapters by implementing the `JobQueueAdapter` interface.
-- Develop custom storage solutions with the `JobBufferStorage` interface.
+- Develop custom bufstore solutions with the `JobBufStore` interface.
 
 ## Contributing
 

@@ -1,10 +1,10 @@
 import {
-  InMemoryJobBufferStorage,
+  InMemoryJobBufStore,
   InMemoryJobQueueAdapter,
   InMemoryJobQueueAdapterOptions,
-  isJobBufferStorage,
+  isJobBufStore,
   isJobQueueAdapter,
-  JobBufferStorage,
+  JobBufStore,
   JobQueueAdapter,
   JobQueueOptions,
   JobQueueService,
@@ -19,16 +19,16 @@ export interface JobQueueAdapterOptions {
   [key: string]: any;
 }
 
-export interface JobBufferStorageOptions {
+export interface JobBufStoreOptions {
   name?: 'memory' | 'redis';
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
-export interface JoborOptions extends Omit<JobQueueOptions, 'adapter' | 'storage'> {
+export interface JoborOptions extends Omit<JobQueueOptions, 'adapter' | 'bufstore'> {
   adapter?: JobQueueAdapter | JobQueueAdapterOptions;
-  storage?: JobBufferStorage | JobBufferStorageOptions;
+  bufstore?: JobBufStore | JobBufStoreOptions;
   processMode?: ProcessMode;
 }
 
@@ -36,18 +36,18 @@ export class Jobor extends JobQueueService {
   readonly processContext: ProcessContext;
 
   constructor(options?: JoborOptions) {
-    const {adapter: adapterOrOptions, storage: storageOrOptions, processMode, ...rest} = options ?? {};
+    const {adapter: adapterOrOptions, bufstore: storageOrOptions, processMode, ...rest} = options ?? {};
 
     const adapter = isJobQueueAdapter(adapterOrOptions)
       ? adapterOrOptions
       : loadAdapter({processMode, ...adapterOrOptions});
-    const storage = isJobBufferStorage(storageOrOptions)
+    const bufstore = isJobBufStore(storageOrOptions)
       ? storageOrOptions
       : loadStorage({processMode, ...storageOrOptions});
     super({
       ...rest,
       adapter,
-      storage,
+      bufstore: bufstore,
     });
 
     this.processContext = new ProcessContext(processMode);
@@ -72,20 +72,20 @@ export const loadAdapter = (options?: JobQueueAdapterOptions) => {
   return new (mod.default ?? mod)(options) as JobQueueAdapter;
 };
 
-export const loadStorage = (options?: JobBufferStorageOptions) => {
-  const storages = {
-    redis: '@jobor/storage-redis',
+export const loadStorage = (options?: JobBufStoreOptions) => {
+  const bufstores = {
+    redis: '@jobor/bufstore-redis',
   };
 
   const name = options?.name || 'memory';
   if (name === 'memory') {
-    return new InMemoryJobBufferStorage();
+    return new InMemoryJobBufStore();
   }
 
-  if (!storages[name]) {
+  if (!bufstores[name]) {
     throw new Error(`Storage ${name} is not allowed`);
   }
 
-  const mod = require(storages[name]);
-  return new (mod.default ?? mod)(options) as JobBufferStorage;
+  const mod = require(bufstores[name]);
+  return new (mod.default ?? mod)(options) as JobBufStore;
 };

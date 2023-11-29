@@ -5,13 +5,13 @@ import {Job} from './job';
  * This strategy defines where to store jobs that have been collected by a
  * {@link JobBuffer}.
  *
- 
+
  * @docsCategory job-queue
  */
-export interface JobBufferStorage {
+export interface JobBufStore {
   /**
    * @description
-   * Persist a job to the storage medium. The storage format should
+   * Persist a job to the bufstore medium. The bufstore format should
    * take into account the `bufferId` argument, as it is necessary to be
    * able to later retrieve jobs by that id.
    */
@@ -35,7 +35,7 @@ export interface JobBufferStorage {
 
   /**
    * @description
-   * Clears all jobs from the storage medium which match the specified bufferIds (if the
+   * Clears all jobs from the bufstore medium which match the specified bufferIds (if the
    * array is empty, clear for _all_ bufferIds), and returns those jobs in an object
    * arranged by bufferId
    *
@@ -53,6 +53,6 @@ export interface JobBufferStorage {
 }
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-export function isJobBufferStorage(x: any): x is JobBufferStorage {
+export function isJobBufStore(x: any): x is JobBufStore {
   return x && typeof x.add === 'function' && typeof x.bufferSize === 'function' && typeof x.flush === 'function';
 }

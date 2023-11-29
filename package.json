@@ -73,7 +73,7 @@
   "workspaces": [
     "packages/*",
     "adapters/*",
-    "storages/*"
+    "bufstores/*"
   ],
   "packageManager": "yarn@4.0.1"
 }

@@ -1,4 +1,4 @@
-import {Job, JobBufferStorage, JobConfig, Logger} from '@jobor/core';
+import {Job, JobBufStore, JobConfig, Logger} from '@jobor/core';
 import {Cluster, Redis, RedisOptions} from 'ioredis';
 import superjson from 'superjson';
 import {AnyObj} from 'tily/typings/types';
@@ -9,16 +9,16 @@ const BUFFER_LIST_PREFIX = 'jobor-job-buffer';
 
 export type RedisConnectionOptions = Redis | Cluster | RedisOptions;
 
-export type RedisJobBufferStorageOptions =
+export type RedisJobBufStoreOptions =
   | RedisConnectionOptions
   | {
       connection: Redis | Cluster | RedisOptions;
     };
 
-export class RedisJobBufferStorage implements JobBufferStorage {
+export class RedisJobBufStore implements JobBufStore {
   readonly client: Redis | Cluster;
 
-  constructor(options?: RedisJobBufferStorageOptions) {
+  constructor(options?: RedisJobBufStoreOptions) {
     options = options ?? {};
     const connection = (options as AnyObj).connection ? (options as AnyObj).connection : options;
     if (connection instanceof Redis) {

@@ -4,7 +4,7 @@
   "packages": [
     "packages/*",
     "adapters/*",
-    "storages/*",
+    "bufstores/*",
     "examples/*"
   ],
   "command": {

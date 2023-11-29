@@ -8,7 +8,7 @@ import {JobQueueOptions, JobQueueService} from '../../job-queue.service';
 import {ProcessContext} from '../../process-context';
 import {TestingJobQueueStrategy} from '../../testing-job-queue-strategy';
 import {JobState} from '../../types';
-import {TestingJobBufferStorageStrategy} from '../helpers';
+import {TestingJobBufStoreStrategy} from '../helpers';
 
 const queuePollInterval = 10;
 const backoffStrategySpy = jest.fn();
@@ -20,16 +20,16 @@ function createJobQueueStrategy(): TestingJobQueueStrategy {
   });
 }
 
-function createJobBufferStorageStrategy(): TestingJobBufferStorageStrategy {
-  return new TestingJobBufferStorageStrategy();
+function createJobBufStoreStrategy(): TestingJobBufStoreStrategy {
+  return new TestingJobBufStoreStrategy();
 }
 
 const jobQueueStrategy = createJobQueueStrategy();
-const jobBufferStorageStrategy = createJobBufferStorageStrategy();
+const jobBufStoreStrategy = createJobBufStoreStrategy();
 const jobQueueOptions: JobQueueOptions = {
   adapter: jobQueueStrategy,
   activeQueues: [],
-  storage: jobBufferStorageStrategy,
+  bufstore: jobBufStoreStrategy,
 };
 
 class TestJobQueueService extends JobQueueService {
@@ -416,7 +416,7 @@ describe('JobQueueService', () => {
       expect((await getJob(testJob2_1)).state).toBe(JobState.RUNNING);
       expect((await getJob(testJob2_2)).state).toBe(JobState.RUNNING);
 
-      const bufferedJobs = jobBufferStorageStrategy.getBufferedJobs(testJobBuffer.id);
+      const bufferedJobs = jobBufStoreStrategy.getBufferedJobs(testJobBuffer.id);
       expect(bufferedJobs.map(j => j.data)).toEqual(['hello', 'world']);
     });
 

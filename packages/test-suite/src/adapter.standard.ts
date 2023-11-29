@@ -1,12 +1,4 @@
-import {
-  InMemoryJobBufferStorage,
-  Job,
-  JobBuffer,
-  JobQueue,
-  JobQueueAdapter,
-  JobQueueService,
-  JobState,
-} from '@jobor/core';
+import {InMemoryJobBufStore, Job, JobBuffer, JobQueue, JobQueueAdapter, JobQueueService, JobState} from '@jobor/core';
 import {firstValueFrom, Subject, take} from 'rxjs';
 import {PromiseOrValue} from 'tily/typings/types';
 
@@ -19,14 +11,14 @@ export const adapterStandardTests = (getAdapter: () => PromiseOrValue<JobQueueAd
   describe('Standard JobQueueAdapter Tests', () => {
     let adapter: JobQueueAdapter;
     let jobQueueService: JobQueueService;
-    let storage: InMemoryJobBufferStorage;
+    let bufstore: InMemoryJobBufStore;
 
     beforeEach(async () => {
       adapter = await getAdapter();
-      storage = new InMemoryJobBufferStorage();
+      bufstore = new InMemoryJobBufStore();
       jobQueueService = new JobQueueService({
         adapter,
-        storage,
+        bufstore: bufstore,
       });
       await jobQueueService.start();
     });

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import BullMQJobQueueAdapter from '@jobor/bullmq';
-import {InMemoryJobBufferStorage, InMemoryJobQueueAdapter} from '@jobor/core';
+import {InMemoryJobBufStore, InMemoryJobQueueAdapter} from '@jobor/core';
 
 import {Jobor, loadAdapter, loadStorage} from '../..';
 
@@ -10,7 +10,7 @@ jest.mock('@jobor/bullmq', () => {
   });
 });
 
-jest.mock('@jobor/storage-redis', () => {
+jest.mock('@jobor/bufstore-redis', () => {
   return jest.fn().mockImplementation(() => {
     return {mocked: 'redis'};
   });
@@ -38,17 +38,17 @@ describe('Jobor', () => {
   });
 
   describe('loadStorage function', () => {
-    it('should load an in-memory storage by default', () => {
-      const storage = loadStorage({});
-      expect(storage).toBeInstanceOf(InMemoryJobBufferStorage);
+    it('should load an in-memory bufstore by default', () => {
+      const bufstore = loadStorage({});
+      expect(bufstore).toBeInstanceOf(InMemoryJobBufStore);
     });
 
-    it('should load the correct storage based on the provided name', () => {
-      const storage = loadStorage({name: 'redis'});
-      expect(storage).toHaveProperty('mocked', 'redis');
+    it('should load the correct bufstore based on the provided name', () => {
+      const bufstore = loadStorage({name: 'redis'});
+      expect(bufstore).toHaveProperty('mocked', 'redis');
     });
 
-    it('should throw an error for an unknown storage', () => {
+    it('should throw an error for an unknown bufstore', () => {
       expect(() => {
         loadStorage({name: 'unknown' as any});
       }).toThrow('Storage unknown is not allowed');
@@ -66,14 +66,14 @@ describe('Jobor', () => {
       expect(jobor.adapter).toHaveProperty('mocked', 'bullmq');
     });
 
-    it('should create with storage options', () => {
+    it('should create with bufstore options', () => {
       const jobor = new Jobor({
-        storage: {
+        bufstore: {
           name: 'redis',
         },
       });
       expect(jobor).toBeInstanceOf(Jobor);
-      expect(jobor.buffers).toHaveProperty('storage.mocked', 'redis');
+      expect(jobor.buffers).toHaveProperty('bufstore.mocked', 'redis');
     });
   });
 });

@@ -1,6 +1,6 @@
 {
-  "name": "@jobor/storage-redis",
-  "description": "Redis job buffer storage for jobor",
+  "name": "@jobor/bufstore-redis",
+  "description": "Redis job buffer bufstore for jobor",
   "version": "0.2.0",
   "keywords": [],
   "main": "./dist/index.js",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "nb-tsc -b",
-    "clean": "del 'jobor-storage-redis*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
+    "clean": "del 'jobor-bufstore-redis*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
     "pretest": "yarn run clean && yarn run build",
     "test": "yarn run pretest && yarn run jest",
     "jest": "jest"

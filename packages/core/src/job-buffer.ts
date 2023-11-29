@@ -6,7 +6,7 @@ import {JobData} from './types';
  * A JobBuffer is used to temporarily prevent jobs from being sent to the job queue for processing.
  * Instead, it collects certain jobs (as specified by the `collect()` method), and stores them.
  *
- * How these buffered jobs are stored is determined by the configured {@link JobBufferStorageStrategy}.
+ * How these buffered jobs are stored is determined by the configured {@link JobBufStore}.
  *
  * The JobBuffer can be thought of as a kind of "interceptor" of jobs. That is, when a JobBuffer is active,
  * it sits in between calls to `JobQueue.add()` and the actual adding of the job to the queue.
@@ -78,7 +78,7 @@ import {JobData} from './types';
  * ```
  *
  * @docsCategory JobQueue
- 
+
  */
 export interface JobBuffer<Data extends JobData<Data> = object> {
   readonly id: string;

@@ -21,8 +21,8 @@
     "jest": "jest"
   },
   "devDependencies": {
+    "@jobor/bufstore-redis": "workspace:^",
     "@jobor/bullmq": "workspace:^",
-    "@jobor/storage-redis": "workspace:^",
     "@nutol/build": "^0.2.15",
     "@nutol/eslint-config": "^0.2.10",
     "@nutol/ts-config": "^0.2.2",
