@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "husky install && yarn build",
-    "prerelease": "yarn build:full && yarn lint",
+    "prerelease": "yarn build:full && yarn lint:fix",
     "release": "yarn prerelease &&cross-env CI=1 lerna version && lerna publish from-git --yes",
     "lint": "yarn prettier:check && yarn eslint",
     "lint:fix": "yarn prettier:fix && yarn eslint:fix",
