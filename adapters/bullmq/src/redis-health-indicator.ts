@@ -6,7 +6,10 @@ import {loggerCtx} from './constants';
 import {BullMQPAdapterOptions} from './types';
 
 class HealthCheckError extends Error {
-  constructor(public message: string, public healthIndicatorResult: HealthIndicatorResult) {
+  constructor(
+    public message: string,
+    public healthIndicatorResult: HealthIndicatorResult,
+  ) {
     super(message);
   }
 }
