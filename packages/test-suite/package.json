@@ -1,7 +1,7 @@
 {
   "name": "@jobor/test-suite",
   "description": "Test suite for jobor API compliance",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "keywords": [],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

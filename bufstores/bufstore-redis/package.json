@@ -1,7 +1,7 @@
 {
   "name": "@jobor/bufstore-redis",
   "description": "Redis job buffer bufstore for jobor",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "keywords": [],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
