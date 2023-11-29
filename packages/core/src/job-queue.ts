@@ -87,10 +87,11 @@ export class JobQueue<Data extends JobData<Data> = AnyObj> {
    *   .catch(err => err.message);
    * ```
    */
-  async add(data: Data, options?: Pick<JobConfig<Data>, 'retries'>): Promise<SubscribableJob<Data>> {
+  async add(data: Data, options?: Pick<JobConfig<Data>, 'retries' | 'priority'>): Promise<SubscribableJob<Data>> {
     const job = new AnyJob({
       data,
       queueName: this.options.name,
+      priority: options?.priority,
       retries: options?.retries ?? 0,
     });
 

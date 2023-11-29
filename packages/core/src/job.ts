@@ -37,6 +37,7 @@ export type JobEventListener<T extends JobData<T>> = (job: Job<T>) => void;
 export class Job<T extends JobData<T> = any> {
   readonly id: number | string | null;
   readonly queueName: string;
+  readonly priority?: number;
   readonly retries: number;
   readonly createdAt: Date;
   private readonly _data: T;
@@ -49,6 +50,7 @@ export class Job<T extends JobData<T> = any> {
     this._data = this.ensureDataIsSerializable(config.data) as T;
     this.id = config.id || null;
     this._state = config.state || JobState.PENDING;
+    this.priority = config.priority;
     this.retries = config.retries || 0;
     this._attempts = config.attempts || 0;
     this._progress = config.progress || 0;

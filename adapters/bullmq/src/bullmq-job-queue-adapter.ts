@@ -149,6 +149,7 @@ export class BullMQJobQueueAdapter implements InspectableJobQueueAdapter {
       type: 'exponential',
     };
     const bullJob = await this.queue.add(job.queueName, job.data, {
+      priority: job.priority,
       attempts: retries + 1,
       backoff,
     });

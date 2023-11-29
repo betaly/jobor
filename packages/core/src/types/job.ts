@@ -61,6 +61,7 @@ export type JobData<T> = JsonCompatible<T>;
 export interface JobConfig<T extends JobData<T>> {
   queueName: string;
   data: T;
+  priority?: number;
   retries?: number;
   attempts?: number;
   id?: ID;
